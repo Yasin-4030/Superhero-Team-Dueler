@@ -7,9 +7,10 @@ class Ability:
         
 
     def attack(self):
-        random_value = random.randint(0,self.max_damage)
-        return random_value
-
+        # TODO please uncomment me
+        # random_value = random.randint(0,self.max_damage)
+        # return random_value
+        return 5
     
 if __name__ == "__main__":
     # If you run this file from the terminal this block is executed!

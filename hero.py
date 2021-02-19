@@ -29,12 +29,12 @@ class Hero:
     def defend(self):
         total_block = 0
         for armor in self.armors:
-            total_block -= armor.defend()
+            total_block += armor.block()
         return total_block
 
     def take_damage(self, damage):
-        self.defense -= damage
-        return self.current_health - self.defense
+        after_damage = self.defend() - damage
+        self.current_health += after_damage
 
     def is_alive(self):
         pass
