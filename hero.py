@@ -1,5 +1,6 @@
 from ability import Ability
 from armor import Armor
+from weapon import Weapon
 import random
 
 
@@ -10,6 +11,8 @@ class Hero:
         self.current_health = starting_health
         self.abilities = list()
         self.armors = list()
+        self.deaths = 0
+        self.kills = 0
 
     def add_ability(self, ability):
         self.abilities.append(ability)
@@ -17,6 +20,17 @@ class Hero:
 
     def add_armor(self, armor):
         self.armors.append(armor)
+
+    def add_weapon(self, weapon):
+        self.abilities.append(weapon)
+        # appending the weapon object passed in as an
+        # argument to self.abilities.
+
+    def add_kill(self, num_kills):
+        self.kills += num_kills
+
+    def add_death(self, num_deaths):
+        self.deaths += num_deaths
 
     def attack(self):
         total_damage = 0
@@ -33,34 +47,57 @@ class Hero:
         return total_block
 
     def take_damage(self, damage):
-        after_damage = self.defend() - damage
-        self.current_health += after_damage
+        after_damage = damage - self.defend()
+        self.current_health -= after_damage
 
     def is_alive(self):
-        pass
+        if self.current_health <= 0:
+            return False
+        else:
+            return True
 
     def fight(self, opponent):
         winner = random.choice([self, opponent])
+        if len(self.abilities) == 0 and len(opponent.abilities) == 0:
+            return f'Draw'
+        else: 
+            while self.is_alive() and opponent.is_alive():
+                damage_amount = self.attack()
+                opponent.take_damage(damage_amount)
+                damage_amount = opponent.attack()
+                self.take_damage(damage_amount)
+            if self.is_alive():
+                winner = self
+            elif opponent.is_alive():
+                winner = opponent
+            else:
+                return f'Draw'
+
         return f'{winner.name} Won!'
+
+
+        # TODO: Refactor this method to update the following:
+        # 1) the number of kills the hero (self) has when the opponent dies.
+        # 2) then number of kills the opponent has when the hero (self) dies
+        # 3) the number of deaths of the opponent if they die    in the fight
+        # 4) the number of deaths of the hero (self) if they die in the fight
 
 
 if __name__ == "__main__":
 
-    # my_hero = Hero("Grace Hopper", 200)
     # hero1 = Hero("Wonder Woman")
     # hero2 = Hero("Dumbledore")
-
+    # ability1 = Ability("Super Speed", 30)
+    # ability2 = Ability("Super Eyes", 40)
+    # ability3 = Ability("Wizard Wand", 80)
+    # ability4 = Ability("Wizard Beard", 20)
+    # hero1.add_ability(ability1)
+    # hero1.add_ability(ability2)
+    # hero2.add_ability(ability3)
+    # hero2.add_ability(ability4)
     # print(hero1.fight(hero2))
-    # ability = Ability("Great Debugging", 50)
-    # ability2 = Ability('Dancing', 32)
-    # hero = Hero("Grace Hopper", 200)
-    # hero.add_ability(ability)
-    # hero.add_ability(ability2)
-    hero = Hero("Grace Hopper", 200)
-    shield = Armor("Shield", 50)
-    hero.add_armor(shield)
-    hero.take_damage(50)
-    print(hero.current_health)
 
-    
-    
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
