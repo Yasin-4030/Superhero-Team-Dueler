@@ -68,15 +68,19 @@ class Hero:
                 self.take_damage(damage_amount)
             if self.is_alive():
                 winner = self
+                self.add_kill(1)
+                opponent.add_death(1)
             elif opponent.is_alive():
                 winner = opponent
+                opponent.add_kill(1)
+                self.add_death(1)
             else:
                 return f'Draw'
 
         return f'{winner.name} Won!'
 
 
-        # TODO: Refactor this method to update the following:
+        # update the following:
         # 1) the number of kills the hero (self) has when the opponent dies.
         # 2) then number of kills the opponent has when the hero (self) dies
         # 3) the number of deaths of the opponent if they die    in the fight
@@ -85,19 +89,20 @@ class Hero:
 
 if __name__ == "__main__":
 
-    # hero1 = Hero("Wonder Woman")
-    # hero2 = Hero("Dumbledore")
-    # ability1 = Ability("Super Speed", 30)
-    # ability2 = Ability("Super Eyes", 40)
-    # ability3 = Ability("Wizard Wand", 80)
-    # ability4 = Ability("Wizard Beard", 20)
-    # hero1.add_ability(ability1)
-    # hero1.add_ability(ability2)
-    # hero2.add_ability(ability3)
-    # hero2.add_ability(ability4)
-    # print(hero1.fight(hero2))
+    hero1 = Hero("Wonder Woman")
+    hero2 = Hero("Dumbledore")
+    ability1 = Ability("Super Speed", 30)
+    ability2 = Ability("Super Eyes", 40)
+    ability3 = Ability("Wizard Wand", 80)
+    ability4 = Ability("Wizard Beard", 20)
+    hero1.add_ability(ability1)
+    hero1.add_ability(ability2)
+    hero2.add_ability(ability3)
+    hero2.add_ability(ability4)
+    print(hero1.fight(hero2))
+    print(hero1.kills)
+    print(hero1.deaths)
 
-    hero = Hero("Wonder Woman")
-    weapon = Weapon("Lasso of Truth", 90)
-    hero.add_weapon(weapon)
-    print(hero.attack())
+    print(hero2.kills)
+    print(hero2.deaths)
+    
